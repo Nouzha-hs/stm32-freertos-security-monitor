@@ -1,0 +1,20 @@
+{
+  "serial": {
+    "port": "COM3",
+    "baudrate": 115200,
+    "timeout": 1.0
+  },
+  "smtp": {
+    "enabled": true,
+    "host": "smtp.gmail.com",
+    "port": 587,
+    "use_tls": true,
+    "user": "votre_adresse@gmail.com",
+    "password": "votre_mot_de_passe_application",
+    "recipient": "admin_securite@domaine.com"
+  },
+  "alert": {
+    "cooldown_seconds": 30,
+    "threshold_pct": 80
+  }
+}

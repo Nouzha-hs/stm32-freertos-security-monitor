@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Plan de Répartition des Tâches - Projet Sécurité Embarquée STM32</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm 15mm 15mm 15mm;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2c3e50;
+            background-color: #ffffff;
+            line-height: 1.5;
+            font-size: 11pt;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            border-bottom: 3px solid #2980b9;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .title-block h1 {
+            color: #1a5276;
+            margin: 0 0 6px 0;
+            font-size: 18pt;
+        }
+        .title-block h2 {
+            color: #7f8c8d;
+            margin: 0;
+            font-size: 12pt;
+            font-weight: normal;
+        }
+        .meta-box {
+            text-align: right;
+            font-size: 9pt;
+            color: #555;
+        }
+        .alert-box {
+            background-color: #ebf5fb;
+            border-left: 5px solid #2980b9;
+            padding: 10px 14px;
+            margin-bottom: 18px;
+            border-radius: 4px;
+            font-size: 10pt;
+        }
+        .alert-box strong {
+            color: #1a5276;
+        }
+        h3 {
+            color: #2471a3;
+            border-bottom: 1px solid #d4e6f1;
+            padding-bottom: 4px;
+            margin-top: 18px;
+            margin-bottom: 10px;
+            font-size: 13pt;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            font-size: 9.5pt;
+        }
+        th, td {
+            border: 1px solid #d5dbdb;
+            padding: 7px 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #2980b9;
+            color: white;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+        .role-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 8pt;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .badge-hw { background-color: #fadbd8; color: #922b21; }
+        .badge-sw { background-color: #d4efdf; color: #1e8449; }
+        .badge-ml { background-color: #fdebd0; color: #b9770e; }
+        
+        .member-card {
+            border: 1px solid #e5e7e9;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 14px;
+            background-color: #fdfefe;
+            page-break-inside: avoid;
+        }
+        .member-card h4 {
+            margin: 0 0 8px 0;
+            color: #2c3e50;
+            font-size: 11pt;
+            display: flex;
+            justify-content: space-between;
+        }
+        .member-card ul {
+            margin: 0;
+            padding-left: 20px;
+            font-size: 9.5pt;
+        }
+        .member-card li {
+            margin-bottom: 4px;
+        }
+        .footer-signatures {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            page-break-inside: avoid;
+        }
+        .sig-block {
+            width: 30%;
+            border-top: 1px dashed #7f8c8d;
+            padding-top: 8px;
+            text-align: center;
+            font-size: 9pt;
+            color: #555;
+        }
+        @media print {
+            body { font-size: 10pt; }
+            .member-card { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="title-block">
+            <h1>Plan de Répartition des Tâches (3 Collaborateurs)</h1>
+            <h2>Projet Sécurité des Systèmes Embarqués Temps Réel (STM32 & FreeRTOS)</h2>
+        </div>
+        <div class="meta-box">
+            <strong>Équipe :</strong> 3 Membres<br>
+            <strong>Hardware physique :</strong> 1 Kit disponible<br>
+            <strong>Version :</strong> 1.0 (Officielle)
+        </div>
+    </div>
+
+    <div class="alert-box">
+        <strong>Stratégie de collaboration avec 1 seul équipement physique :</strong><br>
+        Le projet est découpé selon une architecture modulaire professionnelle. Les membres ne possédant pas la carte développent et valident leurs modules de manière autonome grâce au <strong>mocking série</strong> (simulation de flux UART pour la passerelle PC) et à des <strong>environnements virtuels Python / Jupyter</strong> (pour le pipeline IA et l'analyse de données). Les intégrations et tests physiques sont ensuite centralisés.
+    </div>
+
+    <h3>1. Matrice Globale des Rôles et Responsabilités (RACI)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Livrable / Module</th>
+                <th>Membre 1 (Hardware Lead)</th>
+                <th>Membre 2 (Software PC)</th>
+                <th>Membre 3 (TinyML & Doc)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Firmware FreeRTOS (C / STM32)</strong></td>
+                <td><span class="role-badge badge-hw">Responsable</span> (Code & Flash)</td>
+                <td>Consulté (Besoins trames UART)</td>
+                <td>Informé (Format model_data.h)</td>
+            </tr>
+            <tr>
+                <td><strong>Banc de Test & Mesures PuTTY</strong></td>
+                <td><span class="role-badge badge-hw">Responsable</span> (Relevés réels)</td>
+                <td>Support (Validation débits)</td>
+                <td>Informé (Graphiques/Rapport)</td>
+            </tr>
+            <tr>
+                <td><strong>Passerelle PC & Alerte Email</strong></td>
+                <td>Testeur Réel (Liaison USB)</td>
+                <td><span class="role-badge badge-sw">Responsable</span> (Dev Python & SMTP)</td>
+                <td>Testeur Recette</td>
+            </tr>
+            <tr>
+                <td><strong>Simulateur de Port Série (Mock)</strong></td>
+                <td>Non requis</td>
+                <td><span class="role-badge badge-sw">Responsable</span> (Génération trames)</td>
+                <td>Utilisateur pour tests</td>
+            </tr>
+            <tr>
+                <td><strong>Modèle TinyML & Compression TFLite</strong></td>
+                <td>Intégrateur C (`model_data.h`)</td>
+                <td>Informé</td>
+                <td><span class="role-badge badge-ml">Responsable</span> (Dataset, Training, TFLite)</td>
+            </tr>
+            <tr>
+                <td><strong>Vidéo de Démonstration (Secours)</strong></td>
+                <td><span class="role-badge badge-hw">Responsable</span> (Tournage banc réel)</td>
+                <td>Montage / Sous-titres</td>
+                <td>Voix off / Scénario démo</td>
+            </tr>
+            <tr>
+                <td><strong>Présentation (10 Diapositives) & Rapport</strong></td>
+                <td>Validation technique</td>
+                <td>Rédaction partie PC/Alerte</td>
+                <td><span class="role-badge badge-ml">Responsable</span> (Mise en page & Slides)</td>
+            </tr>
+            <tr>
+                <td><strong>Dépôt GitHub & Qualité du Code</strong></td>
+                <td>Validation Firmware</td>
+                <td>Validation Scripts Python</td>
+                <td><span class="role-badge badge-ml">Responsable</span> (README & Coordination)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>2. Fiches de Postes Détaillées</h3>
+
+    <div class="member-card">
+        <h4>
+            <span>👤 Membre 1 : Ingénieur Embarqué & Hardware Lead (Vous - Avec Matériel)</span>
+            <span class="role-badge badge-hw">Matériel Physique</span>
+        </h4>
+        <ul>
+            <li><strong>Responsabilité principale :</strong> Tout le cycle de vie sur la cible physique STM32.</li>
+            <li><strong>Configuration matérielle :</strong> Câblage du buzzer/LED d'alarme sur le port GPIO (ex: PB0) et liaison UART/USB avec le PC.</li>
+            <li><strong>Développement Firmware :</strong>
+                <ul>
+                    <li>Implémentation de la tâche critique sous FreeRTOS (`critical_task.c`) avec mesure de cycles DWT pour le jitter.</li>
+                    <li>Configuration de la tâche d'attaque saturante (`attack_sim.c`) et test des priorités (`osPriorityRealtime` vs `osPriorityBelowNormal`).</li>
+                    <li>Surveillance de charge processeur dans `cpu_monitor.c` via le hook `vApplicationIdleHook`.</li>
+                </ul>
+            </li>
+            <li><strong>Expérimentation & Captures :</strong> Exécution des scénarios nominaux et d'attaque, capture des logs PuTTY (`jitter_max`, `deadline_miss`, `ALERT,100`).</li>
+            <li><strong>Livrable clé spécifique :</strong> Enregistrement de la <strong>vidéo de secours de la démonstration</strong> (exigée par la consigne de soutenance pour parer à tout incident en direct).</li>
+        </ul>
+    </div>
+
+    <div class="member-card">
+        <h4>
+            <span>👤 Membre 2 : Ingénieur Logiciel PC & Supervision Télémétrie (Sans Matériel)</span>
+            <span class="role-badge badge-sw">Travail à distance</span>
+        </h4>
+        <ul>
+            <li><strong>Responsabilité principale :</strong> Traitement des données côté station de supervision et chaîne d'alerte distante.</li>
+            <li><strong>Développement de la passerelle Python :</strong>
+                <ul>
+                    <li>Finalisation du script `serial_alert_bridge.py` : gestion des reconnexions, parsing robuste des trames `ALERT,<valeur>`.</li>
+                    <li>Intégration du module d'envoi d'e-mails sécurisé via SMTP (TLS/SSL) avec gestion de cooldown anti-inondation.</li>
+                    <li>(Optionnel valorisant) Création d'un mini dashboard temps réel (ex: Streamlit ou Tkinter) pour afficher la courbe de charge CPU.</li>
+                </ul>
+            </li>
+            <li><strong>Autonomie sans matériel (Méthode Mock) :</strong>
+                <ul>
+                    <li>Création d'un script `mock_stm32_sender.py` qui simule l'émission périodique de trames de télémétrie et d'attaques sur un port COM virtuel (ex: `com0com` sous Windows ou `pty` sous Linux).</li>
+                    <li>Validation intégrale de la chaîne d'alerte sans dépendre de la disponibilité de la carte physique.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="member-card">
+        <h4>
+            <span>👤 Membre 3 : Ingénieur Data / TinyML & Responsable Documentation (Sans Matériel)</span>
+            <span class="role-badge badge-ml">Travail à distance</span>
+        </h4>
+        <ul>
+            <li><strong>Responsabilité principale :</strong> Intelligence Artificielle embarquée, valorisation scientifique et livrables finaux.</li>
+            <li><strong>Pipeline d'apprentissage automatique (Perspective TinyML) :</strong>
+                <ul>
+                    <li>Collecte et structuration du dataset d'anomalies de noyau (15 entrées + 1 label d'état normal/anormal).</li>
+                    <li>Entraînement et optimisation du modèle de réseau de neurones compact sous Python (`train_anomaly_model.py`).</li>
+                    <li>Quantification int8 avec TensorFlow Lite Converter (`convert_tflite.py`) et génération du tableau C `model_data.h`.</li>
+                    <li>Évaluation de l'empreinte mémoire théorique (taille Flash et RAM nécessaire sur Cortex-M).</li>
+                </ul>
+            </li>
+            <li><strong>Gestion de projet & Soutenance :</strong>
+                <ul>
+                    <li>Mise en forme des 10 diapositives PowerPoint d'après la structure validée dans `slides_content.md`.</li>
+                    <li>Rédaction du rapport de synthèse du projet et documentation complète du `README.md` GitHub.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <h3>3. Planning Prévisionnel de Coordination (Jalons)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Phase</th>
+                <th>Objectif & Synchronisation</th>
+                <th>Validation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Jalon 1 (J+3)</strong></td>
+                <td>Spécification de l'interface UART (format exact des trames `ALERT,xx` et `cpu=xx%`). Membre 2 démarre son mock Python.</td>
+                <td>Mock Python fonctionnel</td>
+            </tr>
+            <tr>
+                <td><strong>Jalon 2 (J+7)</strong></td>
+                <td>Membre 1 flashe le firmware et capture les logs PuTTY. Membre 3 termine l'entraînement du modèle ML et génère `model_data.h`.</td>
+                <td>Logs PuTTY validés</td>
+            </tr>
+            <tr>
+                <td><strong>Jalon 3 (J+10)</strong></td>
+                <td>Test d'intégration global : Membre 1 branche la STM32 sur le PC de Membre 2 (ou partage de session) pour tester l'alerte email réelle.</td>
+                <td>Réception de l'email d'alerte</td>
+            </tr>
+            <tr>
+                <td><strong>Jalon 4 (J+12)</strong></td>
+                <td>Tournage de la vidéo de secours par Membre 1, finalisation des 10 diapositives par Membre 3, publication sur GitHub.</td>
+                <td>Dépôt GitHub public & Démo prête</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="footer-signatures">
+        <div class="sig-block">
+            <strong>Membre 1 (Hardware Lead)</strong><br>
+            [Nom & Signature]<br><br>
+            Date : ___ / ___ / 2026
+        </div>
+        <div class="sig-block">
+            <strong>Membre 2 (Software PC)</strong><br>
+            [Nom & Signature]<br><br>
+            Date : ___ / ___ / 2026
+        </div>
+        <div class="sig-block">
+            <strong>Membre 3 (Data / TinyML & Doc)</strong><br>
+            [Nom & Signature]<br><br>
+            Date : ___ / ___ / 2026
+        </div>
+    </div>
+
+</body>
+</html>

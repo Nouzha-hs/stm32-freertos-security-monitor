@@ -1,0 +1,38 @@
+# Fichiers de compilation C / STM32CubeIDE
+Debug/
+Release/
+*.o
+*.d
+*.elf
+*.bin
+*.hex
+*.map
+*.list
+*.axf
+.project
+.cproject
+.settings/
+*.launch
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+*.env
+
+# Configuration confidentielle (mots de passe emails, etc.)
+pc_client/config.json
+!pc_client/config.json.example
+
+# Modèles volumineux
+*.tflite
+*.h5
+
+# OS & Editeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
