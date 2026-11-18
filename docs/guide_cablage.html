@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schéma Visuel de Câblage : Buzzer ➔ STM32 NUCLEO-F401RE</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background-color: #1e293b;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            color: #38bdf8;
+            margin-top: 0;
+            font-size: 24px;
+            text-align: center;
+        }
+        .instruction {
+            background-color: #334155;
+            padding: 14px 20px;
+            border-radius: 8px;
+            border-left: 5px solid #38bdf8;
+            margin-bottom: 20px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .diagram-box {
+            background-color: #111827;
+            border: 2px solid #475569;
+            border-radius: 10px;
+            padding: 10px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #475569;
+        }
+        th {
+            background-color: #0ea5e9;
+            color: #ffffff;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #1e293b;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .b-purple { background-color: #9333ea; color: white; }
+        .b-blue { background-color: #2563eb; color: white; }
+        .b-green { background-color: #16a34a; color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Guide Visuel de Câblage : Buzzer ➔ STM32 NUCLEO-F401RE</h1>
+        
+        <div class="instruction">
+            <strong>Pas de panique pour la carte :</strong> les 3 fils transportent une tension très faible et inoffensive (5V/3.3V).<br>
+            Munissez-vous de vos 3 câbles Dupont Mâle-Femelle (<strong>Violet</strong>, <strong>Bleu</strong>, <strong>Vert</strong>).<br>
+            • Côté <strong>Femelle</strong> (trous) : emboîtez-le sur les 3 broches du Buzzer.<br>
+            • Côté <strong>Mâle</strong> (tiges métalliques) : enfoncez-le dans les trous indiqués de la Nucleo.
+        </div>
+
+        <div class="diagram-box">
+            <img src="cablage_nucleo_buzzer.svg" alt="Schéma de câblage" style="width: 100%; height: auto; display: block;">
+        </div>
+
+        <h3>Tableau Récapitulatif Précis</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Couleur de votre fil</th>
+                    <th>Départ : Broche Buzzer</th>
+                    <th>Arrivée : Trou sur la NUCLEO-F401RE</th>
+                    <th>Rôle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="badge b-purple">FIL VIOLET</span></td>
+                    <td><strong>Milieu (+)</strong></td>
+                    <td><strong>5V</strong> (4ᵉ trou du connecteur POWER)</td>
+                    <td>Alimentation électrique</td>
+                </tr>
+                <tr>
+                    <td><span class="badge b-blue">FIL BLEU</span></td>
+                    <td><strong>Moins (-)</strong></td>
+                    <td><strong>GND</strong> (5ᵉ trou du connecteur POWER, juste sous 5V)</td>
+                    <td>Masse électrique</td>
+                </tr>
+                <tr>
+                    <td><span class="badge b-green">FIL VERT</span></td>
+                    <td><strong>Signal (S)</strong></td>
+                    <td><strong>A3</strong> (4ᵉ trou du connecteur ANALOG IN - Broche PB0)</td>
+                    <td>Commande logique de l'alarme</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

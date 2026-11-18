@@ -1,0 +1,193 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 620" width="100%" height="100%" style="background-color: #1e1e2f; font-family: 'Segoe UI', Arial, sans-serif;">
+  <defs>
+    <!-- Filtres d'ombre pour relief -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="3" dy="5" stdDeviation="4" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#2ecc71" flood-opacity="0.8"/>
+    </filter>
+    <filter id="glow-purple" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#9b59b6" flood-opacity="0.8"/>
+    </filter>
+    <filter id="glow-blue" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#3498db" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- Titre Principal -->
+  <text x="475" y="40" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="bold">GUIDE VISUEL DE CÂBLAGE DIRECT : BUZZER ➔ NUCLEO-F401RE</text>
+  <text x="475" y="65" text-anchor="middle" fill="#a0aec0" font-size="14">Câbles Dupont Mâle-Femelle (Côté Femelle sur le Buzzer | Côté Mâle dans la Carte)</text>
+
+  <!-- ================= MODULE BUZZER (GAUCHE) ================= -->
+  <g transform="translate(60, 150)" filter="url(#shadow)">
+    <!-- Circuit imprimé du buzzer -->
+    <rect x="0" y="0" width="180" height="260" rx="10" fill="#2d3748" stroke="#4a5568" stroke-width="2"/>
+    <text x="90" y="30" text-anchor="middle" fill="#e2e8f0" font-size="15" font-weight="bold">MODULE BUZZER</text>
+    <text x="90" y="48" text-anchor="middle" fill="#a0aec0" font-size="11">(Vue de dessus)</text>
+
+    <!-- Cylindre noir du buzzer -->
+    <circle cx="90" cy="120" r="55" fill="#111118" stroke="#4a5568" stroke-width="3"/>
+    <circle cx="90" cy="120" r="14" fill="#050508"/>
+    <text x="90" y="125" text-anchor="middle" fill="#718096" font-size="10">PIEZO</text>
+
+    <!-- 3 Broches mâles du buzzer (qui dépassent vers la droite) -->
+    <!-- Broche S (Signal) -->
+    <rect x="180" y="195" width="30" height="10" fill="#cbd5e0" stroke="#718096"/>
+    <circle cx="170" cy="200" r="6" fill="#2ecc71"/>
+    <text x="150" y="205" fill="#ffffff" font-size="16" font-weight="bold">S</text>
+    <text x="10" y="205" fill="#2ecc71" font-size="12" font-weight="bold">Signal (S)</text>
+
+    <!-- Broche + (Milieu - Alimentation) -->
+    <rect x="180" y="215" width="30" height="10" fill="#cbd5e0" stroke="#718096"/>
+    <circle cx="170" cy="220" r="6" fill="#9b59b6"/>
+    <text x="150" y="225" fill="#ffffff" font-size="16" font-weight="bold">+</text>
+    <text x="10" y="225" fill="#9b59b6" font-size="12" font-weight="bold">Milieu (+)</text>
+
+    <!-- Broche - (Masse GND) -->
+    <rect x="180" y="235" width="30" height="10" fill="#cbd5e0" stroke="#718096"/>
+    <circle cx="170" cy="240" r="6" fill="#3498db"/>
+    <text x="150" y="245" fill="#ffffff" font-size="16" font-weight="bold">-</text>
+    <text x="10" y="245" fill="#3498db" font-size="12" font-weight="bold">Masse (-)</text>
+
+    <!-- Indication côté femelle -->
+    <path d="M 215 190 L 230 190 L 230 255 L 215 255" fill="none" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+    <text x="240" y="225" fill="#e2e8f0" font-size="11">Côté FEMELLE (Trous)</text>
+  </g>
+
+  <!-- ================= CARTE NUCLEO-F401RE (DROITE) ================= -->
+  <g transform="translate(560, 100)" filter="url(#shadow)">
+    <!-- Circuit imprimé blanc de la Nucleo -->
+    <rect x="0" y="0" width="330" height="470" rx="14" fill="#ffffff" stroke="#cbd5e0" stroke-width="3"/>
+    
+    <!-- Logo ST et en-tête -->
+    <rect x="20" y="20" width="55" height="30" rx="4" fill="#002b49"/>
+    <text x="47" y="42" text-anchor="middle" fill="#ffffff" font-size="18" font-weight="bold">ST</text>
+    <text x="90" y="40" fill="#002b49" font-size="15" font-weight="bold">NUCLEO-F401RE</text>
+
+    <!-- Boutons -->
+    <circle cx="100" cy="80" r="14" fill="#0072ce"/>
+    <text x="100" y="105" text-anchor="middle" fill="#718096" font-size="9">B1 (BLEU)</text>
+    <circle cx="50" cy="80" r="14" fill="#1a202c"/>
+    <text x="50" y="105" text-anchor="middle" fill="#718096" font-size="9">RESET</text>
+
+    <!-- Microcontrôleur STM32 au centre -->
+    <rect x="80" y="150" width="90" height="90" rx="4" fill="#2d3748" stroke="#1a202c" stroke-width="2"/>
+    <text x="125" y="195" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">STM32F401</text>
+    <text x="125" y="210" text-anchor="middle" fill="#cbd5e0" font-size="9">ARM Cortex-M4</text>
+
+    <!-- LED intégrée LD2 (Verte) -->
+    <circle cx="85" cy="130" r="5" fill="#2ecc71"/>
+    <text x="110" y="134" fill="#718096" font-size="9">LD2 (PA5)</text>
+
+    <!-- ====== CONNECTEURS ARDUINO DROITE (CN6 POWER & CN8 ANALOG) ====== -->
+    <!-- Connecteur CN6 : POWER (8 broches) -->
+    <g transform="translate(240, 70)">
+      <rect x="0" y="0" width="40" height="175" rx="3" fill="#1a202c"/>
+      <text x="-10" y="-8" text-anchor="end" fill="#e53e3e" font-size="11" font-weight="bold">CN6: POWER</text>
+      
+      <!-- Trous CN6 -->
+      <!-- 1. IOREF -->
+      <circle cx="20" cy="15" r="5" fill="#ffffff"/>
+      <text x="-8" y="19" text-anchor="end" fill="#4a5568" font-size="10">IOREF</text>
+      <!-- 2. NRST -->
+      <circle cx="20" cy="35" r="5" fill="#ffffff"/>
+      <text x="-8" y="39" text-anchor="end" fill="#4a5568" font-size="10">NRST</text>
+      <!-- 3. 3V3 -->
+      <circle cx="20" cy="55" r="5" fill="#ffffff"/>
+      <text x="-8" y="59" text-anchor="end" fill="#4a5568" font-size="10">3V3</text>
+      
+      <!-- 4. 5V (CIBLÉ EN VIOLET) -->
+      <circle cx="20" cy="75" r="8" fill="#9b59b6" filter="url(#glow-purple)"/>
+      <circle cx="20" cy="75" r="3" fill="#ffffff"/>
+      <text x="-8" y="79" text-anchor="end" fill="#9b59b6" font-size="12" font-weight="bold">5V (Trou 4) ★</text>
+
+      <!-- 5. GND (CIBLÉ EN BLEU) -->
+      <circle cx="20" cy="95" r="8" fill="#3498db" filter="url(#glow-blue)"/>
+      <circle cx="20" cy="95" r="3" fill="#ffffff"/>
+      <text x="-8" y="99" text-anchor="end" fill="#3498db" font-size="12" font-weight="bold">GND (Trou 5) ★</text>
+
+      <!-- 6. GND -->
+      <circle cx="20" cy="115" r="5" fill="#ffffff"/>
+      <text x="-8" y="119" text-anchor="end" fill="#4a5568" font-size="10">GND</text>
+      <!-- 7. VIN -->
+      <circle cx="20" cy="135" r="5" fill="#ffffff"/>
+      <text x="-8" y="139" text-anchor="end" fill="#4a5568" font-size="10">VIN</text>
+      <!-- 8. NC -->
+      <circle cx="20" cy="155" r="5" fill="#ffffff"/>
+      <text x="-8" y="159" text-anchor="end" fill="#4a5568" font-size="10">NC</text>
+    </g>
+
+    <!-- Connecteur CN8 : ANALOG IN (6 broches) -->
+    <g transform="translate(240, 275)">
+      <rect x="0" y="0" width="40" height="135" rx="3" fill="#1a202c"/>
+      <text x="-10" y="-8" text-anchor="end" fill="#3182ce" font-size="11" font-weight="bold">CN8: ANALOG IN</text>
+
+      <!-- 1. A0 -->
+      <circle cx="20" cy="15" r="5" fill="#ffffff"/>
+      <text x="-8" y="19" text-anchor="end" fill="#4a5568" font-size="10">A0</text>
+      <!-- 2. A1 -->
+      <circle cx="20" cy="35" r="5" fill="#ffffff"/>
+      <text x="-8" y="39" text-anchor="end" fill="#4a5568" font-size="10">A1</text>
+      <!-- 3. A2 -->
+      <circle cx="20" cy="55" r="5" fill="#ffffff"/>
+      <text x="-8" y="59" text-anchor="end" fill="#4a5568" font-size="10">A2</text>
+
+      <!-- 4. A3 / PB0 (CIBLÉ EN VERT) -->
+      <circle cx="20" cy="75" r="8" fill="#2ecc71" filter="url(#glow-green)"/>
+      <circle cx="20" cy="75" r="3" fill="#ffffff"/>
+      <text x="-8" y="79" text-anchor="end" fill="#2ecc71" font-size="12" font-weight="bold">A3 / PB0 (Trou 4) ★</text>
+
+      <!-- 5. A4 -->
+      <circle cx="20" cy="95" r="5" fill="#ffffff"/>
+      <text x="-8" y="99" text-anchor="end" fill="#4a5568" font-size="10">A4</text>
+      <!-- 6. A5 -->
+      <circle cx="20" cy="115" r="5" fill="#ffffff"/>
+      <text x="-8" y="119" text-anchor="end" fill="#4a5568" font-size="10">A5</text>
+    </g>
+  </g>
+
+  <!-- ================= TRACÉ DES 3 FILS COLORÉS ================= -->
+  <!-- 1. FIL VERT (SIGNAL : S -> A3) -->
+  <path d="M 270 350 C 360 350, 480 430, 815 450" 
+        fill="none" stroke="#2ecc71" stroke-width="7" stroke-linecap="round" filter="url(#glow-green)"/>
+  <path d="M 270 350 C 360 350, 480 430, 815 450" 
+        fill="none" stroke="#27ae60" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- 2. FIL VIOLET (ALIMENTATION : + -> 5V) -->
+  <path d="M 270 370 C 400 370, 520 220, 815 245" 
+        fill="none" stroke="#9b59b6" stroke-width="7" stroke-linecap="round" filter="url(#glow-purple)"/>
+  <path d="M 270 370 C 400 370, 520 220, 815 245" 
+        fill="none" stroke="#8e44ad" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- 3. FIL BLEU (MASSE : - -> GND) -->
+  <path d="M 270 390 C 420 390, 530 280, 815 265" 
+        fill="none" stroke="#3498db" stroke-width="7" stroke-linecap="round" filter="url(#glow-blue)"/>
+  <path d="M 270 390 C 420 390, 530 280, 815 265" 
+        fill="none" stroke="#2980b9" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- ÉTIQUETTES SUR LES FILS -->
+  <rect x="340" y="270" width="160" height="24" rx="4" fill="#9b59b6"/>
+  <text x="420" y="286" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">FIL VIOLET : 5V</text>
+
+  <rect x="360" y="315" width="160" height="24" rx="4" fill="#3498db"/>
+  <text x="440" y="331" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">FIL BLEU : GND</text>
+
+  <rect x="380" y="405" width="180" height="24" rx="4" fill="#2ecc71"/>
+  <text x="470" y="421" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">FIL VERT : SIGNAL (PB0)</text>
+
+  <!-- ================= CADRE RÉCAPITULATIF EN BAS ================= -->
+  <g transform="translate(50, 530)">
+    <rect x="0" y="0" width="850" height="70" rx="8" fill="#2d3748" stroke="#4a5568"/>
+    <text x="20" y="25" fill="#f6e05e" font-size="13" font-weight="bold">⚡ RÈGLE D'OR EN 3 BRANCHEMENTS :</text>
+    <text x="20" y="48" fill="#e2e8f0" font-size="12">
+      1. <tspan fill="#3498db" font-weight="bold">FIL BLEU :</tspan> Broche <tspan font-weight="bold">[-]</tspan> du Buzzer ➔ Trou <tspan font-weight="bold">[GND]</tspan> (5ᵉ trou du connecteur POWER)
+    </text>
+    <text x="450" y="48" fill="#e2e8f0" font-size="12">
+      2. <tspan fill="#9b59b6" font-weight="bold">FIL VIOLET :</tspan> Broche <tspan font-weight="bold">[+]</tspan> du Buzzer ➔ Trou <tspan font-weight="bold">[5V]</tspan> (4ᵉ trou du connecteur POWER)
+    </text>
+    <text x="20" y="65" fill="#e2e8f0" font-size="12">
+      3. <tspan fill="#2ecc71" font-weight="bold">FIL VERT :</tspan> Broche <tspan font-weight="bold">[S]</tspan> du Buzzer ➔ Trou <tspan font-weight="bold">[A3]</tspan> (4ᵉ trou du connecteur ANALOG IN - correspond à PB0)
+    </text>
+  </g>
+</svg>
