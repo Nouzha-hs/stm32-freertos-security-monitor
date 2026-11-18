@@ -308,7 +308,21 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+static void Buzzer_Beep(uint32_t duration_ms, uint32_t freq_hz)
+{
+  uint32_t half_period_cycles = SystemCoreClock / (freq_hz * 2U);
+  uint32_t total_cycles = (freq_hz * duration_ms) / 1000U;
+  for (uint32_t i = 0; i < total_cycles; i++)
+  {
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+    uint32_t t = DWT->CYCCNT;
+    while ((DWT->CYCCNT - t) < half_period_cycles) {}
 
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+    t = DWT->CYCCNT;
+    while ((DWT->CYCCNT - t) < half_period_cycles) {}
+  }
+}
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -350,12 +364,12 @@ void StartDefaultTask(void *argument)
 
     if (cpu > CPU_SEUIL)
     {
-      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET); /* Declenchement du Buzzer d'alerte */
       printf("ALERT,%lu\r\n", (unsigned long)cpu);
+      Buzzer_Beep(400, 2000); /* Alarme sonore stridente (2000 Hz pendant 400 ms) */
     }
     else
     {
-      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET); /* Extinction du Buzzer */
+      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
     }
   }
   /* USER CODE END 5 */
