@@ -28,8 +28,7 @@ try:
 except ImportError:
     serial = None
 
-# Chemins
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+from serial_alert_bridge import send_alert_email, log_alert_to_csv, load_config, init_alert_log
 CONFIG_FILE = os.path.join(BASE_DIR, "config.json")
 CONFIG_EXAMPLE = os.path.join(BASE_DIR, "config.json.example")
 LOG_CSV_FILE = os.path.join(BASE_DIR, "alerts_history.csv")
@@ -44,6 +43,10 @@ class SecurityDashboard(tk.Tk):
         self.configure(bg="#121820")
 
         # État
+        self.config = load_config()
+        init_alert_log()
+        self.last_alert_time = 0
+        self.cooldown = self.config.get("alert", {}).get("cooldown_seconds", 30)
         self.serial_port = None
         self.is_connected = False
         self.is_simulating = False
@@ -329,8 +332,27 @@ class SecurityDashboard(tk.Tk):
                 self.alert_state = True
                 cpu = msg["cpu"]
                 now_str = datetime.now().strftime("%H:%M:%S")
-                action_text = "🚨 Buzzer actif (PB0) + Alerte Email SMTP"
-                self.tree.insert("", 0, values=(now_str, f"{cpu} %", f"{self.last_jitter} µs", self.last_miss, action_text))
+
+                curr_t = time.time()
+                if (curr_t - self.last_alert_time) > self.cooldown:
+                    action_text = "🚨 Buzzer (PB0) + Envoi Email SMTP..."
+                    item_id = self.tree.insert("", 0, values=(now_str, f"{cpu} %", f"{self.last_jitter} µs", self.last_miss, action_text))
+                    self.last_alert_time = curr_t
+
+                    def async_email(tree_id, c, j, m):
+                        status = send_alert_email(self.config, c, f"ALERT,{c}")
+                        log_alert_to_csv(c, j, m, f"ALERT,{c}", status)
+                        status_msg = "🚨 Buzzer (PB0) + Email envoyé (OK)" if "SENT" in status else f"🚨 Buzzer (PB0) + {status}"
+                        try:
+                            self.tree.item(tree_id, values=(now_str, f"{c} %", f"{j} µs", m, status_msg))
+                        except Exception:
+                            pass
+
+                    threading.Thread(target=async_email, args=(item_id, cpu, self.last_jitter, self.last_miss), daemon=True).start()
+                else:
+                    action_text = "🚨 Buzzer (PB0) + Cooldown actif (Email ignoré)"
+                    self.tree.insert("", 0, values=(now_str, f"{cpu} %", f"{self.last_jitter} µs", self.last_miss, action_text))
+                    log_alert_to_csv(cpu, self.last_jitter, self.last_miss, f"ALERT,{cpu}", "IGNORED_COOLDOWN")
 
         self.after(50, self.check_queue)
 
