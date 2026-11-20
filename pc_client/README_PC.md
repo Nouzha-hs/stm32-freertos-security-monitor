@@ -102,6 +102,23 @@ python serial_alert_bridge.py --simulate
 ```
 Idéal pour les démonstrations de soutenance ou pour valider la chaîne logicielle sans avoir la carte sous la main. Génère automatiquement le cycle complet (régime normal, injection d'attaque DoS, alerte SMTP et retour à la normale).
 
+### D. Lancer le Dashboard Graphique de Supervision (SOC Temps Réel) :
+```bash
+python gui_dashboard.py
+```
+Interface graphique interactive (Tkinter) avec :
+- Courbe dynamique de charge CPU en temps réel (avec seuil d'alerte à 50%).
+- Cartes d'indicateurs (CPU %, Jitter maximal en µs, Deadline Misses).
+- Clignotement visuel d'alarme immédiat en cas d'attaque DoS.
+- Tableau des incidents de sécurité (Forensic Logging).
+- Fonctionne aussi bien avec la carte physique (`COM3`) qu'avec le bouton *"Mode Démo / Simulation"*.
+
+### E. Simulateur d'Émission de Trames UART (`mock_stm32_sender.py`) :
+```bash
+python mock_stm32_sender.py --interval 15
+```
+Générateur autonome conforme au protocole du firmware FreeRTOS, simulant le cycle nominal et l'injection d'attaques DoS périodiques.
+
 ---
 
 ## 5. Journalisation d'Audit de Sécurité (`alerts_history.csv`)

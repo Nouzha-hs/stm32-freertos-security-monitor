@@ -1,39 +1,100 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Simulateur STM32 (Mock UART) - Permet au Membre 2 de tester sans matériel physique !
-Projet Sécurité Systèmes Embarqués Temps Réel
+Simulateur de Télémétrie STM32 (Mock Generator)
+Projet : Sécurité des Systèmes Embarqués Temps Réel (STM32 + FreeRTOS)
+Responsabilité : Membre 2 (Ingénieur Logiciel PC & Supervision Télémétrie)
 
-Ce script génère les mêmes trames de télémétrie et d'alerte que la carte STM32 réelle :
-- État normal : cpu=1%, jitter_max=23 us, deadline_miss=0
-- Phase d'attaque : ALERT,100 puis cpu=87%, jitter_max=12 us, miss=0
+Ce script permet de tester la chaîne complète de supervision PC sans nécessiter
+la carte physique branchée. Il peut soit émettre sur un port série virtuel (ex: com0com / tty),
+soit générer un flux dans un fichier ou un tube de test.
 """
 
-import time
 import sys
+import time
+import random
+import argparse
+from datetime import datetime
 
-def simulate_stm32_stream():
-    print("=== DÉMARRAGE DU SIMULATEUR STM32 (Flux Virtuel) ===")
-    print("Génération de trames conformes aux relevés PuTTY réels...\n")
+try:
+    import serial
+except ImportError:
+    serial = None
 
-    cycle = 0
+
+def generate_telemetry_stream(port=None, baudrate=115200, attack_interval=15):
+    """
+    Génère un flux continu de télémétrie conforme au firmware STM32.
+    Tous les 'attack_interval' secondes, simule une attaque DoS de 3 secondes.
+    """
+    ser = None
+    if port and serial:
+        try:
+            ser = serial.Serial(port=port, baudrate=baudrate)
+            print(f"[MOCK] Émission active sur le port série : {port} ({baudrate} bauds)")
+        except Exception as e:
+            print(f"[ATTENTION] Impossible d'ouvrir {port} ({e}). Émission sur la console stdout.")
+
+    print("==============================================================")
+    print("   SIMULATEUR DE TÉLÉMÉTRIE STM32 (MOCK EMITTER)              ")
+    print(f"   Cycle nominal : 1-3% CPU | Attaque tous les {attack_interval} s   ")
+    print("   Appuyez sur Ctrl+C pour arrêter                           ")
+    print("==============================================================\n")
+
+    tick = 0
+    idle_base = 590000000
+    ref_idle = 279346
+
     try:
         while True:
-            cycle += 1
-            # Toutes les 10 itérations, simuler une attaque
-            if cycle % 10 in [6, 7]:
-                # Envoi d'alerte
-                cpu = 100 if cycle % 10 == 6 else 87
-                print(f"ALERT,{cpu}")
-                time.sleep(0.1)
-                print(f"cpu={cpu}% heap=11944 jitter_max=12 us deadline_miss=0")
+            tick += 1
+            now_ts = datetime.now().strftime("%H:%M:%S")
+
+            # Phase d'attaque DoS (durée 3 secondes tous les attack_interval)
+            in_attack = (tick % attack_interval) in [0, 1, 2]
+
+            if in_attack:
+                cpu = random.choice([95, 98, 100])
+                jitter = random.randint(10, 28)
+                miss = 0
+                idle_val = idle_base
+                line = f"cpu={cpu}% idle={idle_val} ref={ref_idle} jitter_max={jitter} us miss={miss}"
+                alert_trame = f"ALERT,{cpu}"
+
+                output = f"[{now_ts}] (ATTACK) {line}\n[{now_ts}] (ATTACK) {alert_trame}"
+                to_send = f"{line}\n{alert_trame}\n"
             else:
-                # État normal
-                print("cpu=1% idle=279346 ref=279346 jitter_max=23 us deadline_miss=0")
-            
+                cpu = random.choice([1, 2, 3])
+                jitter = random.choice([0, 1, 2])
+                miss = 0
+                idle_val = idle_base + (tick * 280000)
+                line = f"cpu={cpu}% idle={idle_val} ref={ref_idle} jitter_max={jitter} us miss={miss}"
+                output = f"[{now_ts}] (NOMINAL) {line}"
+                to_send = f"{line}\n"
+
+            print(output)
+
+            if ser and ser.is_open:
+                ser.write(to_send.encode("utf-8"))
+
             time.sleep(1.0)
+
     except KeyboardInterrupt:
-        print("\nArrêt du simulateur.")
+        print("\n[MOCK] Arrêt du simulateur d'émission.")
+    finally:
+        if ser and ser.is_open:
+            ser.close()
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Simulateur d'émission série STM32 (Mock)")
+    parser.add_argument("--port", type=str, default=None, help="Port COM virtuel de sortie (ex: COM4)")
+    parser.add_argument("--baudrate", type=int, default=115200, help="Vitesse en bauds")
+    parser.add_argument("--interval", type=int, default=15, help="Intervalle entre chaque attaque (secondes)")
+    args = parser.parse_args()
+
+    generate_telemetry_stream(port=args.port, baudrate=args.baudrate, attack_interval=args.interval)
+
 
 if __name__ == "__main__":
-    simulate_stm32_stream()
+    main()
