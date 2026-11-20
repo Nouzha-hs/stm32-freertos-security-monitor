@@ -24,6 +24,10 @@ from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+# Active le support ANSI natif sous la console Windows (PowerShell / CMD)
+if os.name == 'nt':
+    os.system('')
+
 try:
     import serial
 except ImportError:
@@ -262,7 +266,7 @@ def run_serial_listener(config, port, baudrate, cooldown):
                     pass
 
                 bar = render_cpu_bar(last_cpu)
-                print(f"[{now_ts}] {bar}  jitter={last_jitter:2d}us  miss={last_miss}  | {line}")
+                print(f"[{now_ts}] {bar}  |  {line}")
 
             elif line.startswith("ALERT"):
                 parts = line.split(",")
