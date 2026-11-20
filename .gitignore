@@ -26,6 +26,7 @@ env/
 # Configuration confidentielle (mots de passe emails, etc.)
 pc_client/config.json
 !pc_client/config.json.example
+pc_client/alerts_history.csv
 
 # Modèles volumineux
 *.tflite
