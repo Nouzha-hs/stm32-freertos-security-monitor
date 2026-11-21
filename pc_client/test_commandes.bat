@@ -7,11 +7,12 @@ echo ==============================================================
 echo.
 echo 1. Lancer la Console de Telemetrie (serial_alert_bridge.py)
 echo 2. Lancer le Dashboard Graphique avec la Courbe (gui_dashboard.py)
-echo 3. Tester la connexion E-mail SMTP (--test-email)
-echo 4. Lancer la Simulation Console sans carte (--simulate)
-echo 5. Quitter
+echo 3. Lancer la Passerelle TinyML IA en Direct avec la carte (tinyml_live_bridge.py)
+echo 4. Tester la connexion E-mail SMTP (--test-email)
+echo 5. Lancer la Simulation Console sans carte (--simulate)
+echo 6. Quitter
 echo.
-set /p choix="Entrez votre choix (1, 2, 3, 4 ou 5) : "
+set /p choix="Entrez votre choix (1, 2, 3, 4, 5 ou 6) : "
 
 if "%choix%"=="1" (
     echo.
@@ -25,10 +26,15 @@ if "%choix%"=="2" (
 )
 if "%choix%"=="3" (
     echo.
+    echo Lancement de l'evaluation TinyML IA en direct...
+    python tinyml_live_bridge.py
+)
+if "%choix%"=="4" (
+    echo.
     echo Test de la liaison email...
     python serial_alert_bridge.py --test-email
 )
-if "%choix%"=="4" (
+if "%choix%"=="5" (
     echo.
     echo Lancement de la simulation...
     python serial_alert_bridge.py --simulate

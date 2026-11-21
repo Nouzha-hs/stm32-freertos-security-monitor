@@ -16,6 +16,11 @@ python serial_alert_bridge.py
 python gui_dashboard.py
 
 # --------------------------------------------------------------
+# 3. Évaluation TinyML (IA) en Direct avec la Carte STM32 (Rôle 3)
+# --------------------------------------------------------------
+python tinyml_live_bridge.py
+
+# --------------------------------------------------------------
 # 3. Test Rapide de Diagnostic E-mail (Sans brancher la carte)
 # --------------------------------------------------------------
 python serial_alert_bridge.py --test-email
