@@ -1,0 +1,21 @@
+# ==============================================================
+# COMMANDES DE TEST OFFICIELLES - PROJET SÉCURITÉ STM32
+# ==============================================================
+
+# Se placer d'abord dans le dossier pc_client :
+cd "C:\Users\unui\OneDrive\Desktop\Projet SI_2\pc_client"
+
+# --------------------------------------------------------------
+# 1. Console de Télémétrie & Alerte Série (Mode Terminal)
+# --------------------------------------------------------------
+python serial_alert_bridge.py
+
+# --------------------------------------------------------------
+# 2. Tableau de Bord Graphique SOC & Courbe CPU en Direct
+# --------------------------------------------------------------
+python gui_dashboard.py
+
+# --------------------------------------------------------------
+# 3. Test Rapide de Diagnostic E-mail (Sans brancher la carte)
+# --------------------------------------------------------------
+python serial_alert_bridge.py --test-email

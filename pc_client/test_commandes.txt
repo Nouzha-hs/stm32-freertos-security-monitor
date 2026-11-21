@@ -1,0 +1,33 @@
+# ==============================================================
+# COMMANDES DE TEST OFFICIELLES - PROJET SÉCURITÉ STM32
+# ==============================================================
+# Se placer d'abord dans le dossier pc_client :
+# cd "C:\Users\unui\OneDrive\Desktop\Projet SI_2\pc_client"
+
+# --------------------------------------------------------------
+# 1. Console de Télémétrie & Alerte Série (Mode Terminal)
+# --------------------------------------------------------------
+python serial_alert_bridge.py
+
+# Description :
+# Écoute la carte STM32 sur COM3 (115200 bauds).
+# Affiche la jauge CPU colorée, le jitter et les deadline misses.
+# Déclenche le buzzer et l'envoi d'e-mail lors de l'appui sur le bouton B1.
+
+
+# --------------------------------------------------------------
+# 2. Tableau de Bord Graphique SOC & Courbe CPU en Direct
+# --------------------------------------------------------------
+python gui_dashboard.py
+
+# Description :
+# Ouvre le Dashboard graphique interactif.
+# Cliquez sur "Connecter Carte" pour voir la courbe de charge en direct.
+# Affiche les 3 pics d'attaque à 100%, l'alerte visuelle clignotante,
+# le journal d'audit CSV et expédie l'e-mail d'alerte en arrière-plan.
+
+
+# --------------------------------------------------------------
+# 3. Test Rapide de Diagnostic E-mail (Sans brancher la carte)
+# --------------------------------------------------------------
+python serial_alert_bridge.py --test-email
