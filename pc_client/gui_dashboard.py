@@ -29,6 +29,8 @@ except ImportError:
     serial = None
 
 from serial_alert_bridge import send_alert_email, log_alert_to_csv, load_config, init_alert_log
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CONFIG_FILE = os.path.join(BASE_DIR, "config.json")
 CONFIG_EXAMPLE = os.path.join(BASE_DIR, "config.json.example")
 LOG_CSV_FILE = os.path.join(BASE_DIR, "alerts_history.csv")
